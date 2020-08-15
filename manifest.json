@@ -2,7 +2,10 @@
     "name": "CoAnnote",
     "version": "1.0",
     "description": "This extension allows you to annotate websites and start discussion threads",
-    "permissions": ["storage"],
+    "icons": {
+      "48": "icons/popup-action-48.png"
+    },
+    "permissions": ["storage", "activeTab"],
     "background": {
         "scripts": ["background.js"],
         "persistent": false

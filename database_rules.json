@@ -1,0 +1,10 @@
+{
+    "users": {
+        "$uid": {
+            "annotations": {
+                ".read": "true",
+                ".write": "$uid === user.uid"
+            }
+        }
+    }
+}

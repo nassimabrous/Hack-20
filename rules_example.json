@@ -1,0 +1,196 @@
+{
+    "rules": 
+    {
+      "pages":
+      {
+          ".read": true,
+          "$page":
+          {
+              "content":
+              {
+                  ".validate": "newData.isString()"
+              },
+              "title":
+              {
+                  ".validate": "newData.isString() && newData.val().length < 50"
+              },
+              "link":
+              {
+                  ".validate": "newData.isString() && (auth.uid !== null && root.child('users/' + newData.val() + '/index').exists() || newData.val().beginsWith(auth.uid))"
+              },
+              "$other":
+              {
+                  ".validate": false
+              },
+              ".validate": "newData.val() === null || newData.hasChildren(['content', 'title', 'link'])"
+          },
+          ".write": "auth.uid !== null && (auth.uid !== null && root.child('users/'+auth.uid+'/access').val() !== null && root.child('users/'+auth.uid+'/access').val() === true)"
+      },
+      
+      "surveys":
+      {
+          ".read": true,
+          "surveyList":
+          {
+              ".read": "auth.uid !== null && root.child('users/'+auth.uid+'/access').val() !== null && root.child('users/'+auth.uid+'/access').val() === true",
+              ".write": "auth.uid !== null && (auth.uid !== null && root.child('users/'+auth.uid+'/access').val() !== null && root.child('users/'+auth.uid+'/access').val() === true)",
+              ".validate": "(auth.uid !== null && (auth.uid !== null && root.child('users/'+auth.uid+'/access').val() !== null && root.child('users/'+auth.uid+'/access').val() === true))"
+          },
+          
+          "$survey":
+          {
+              "responders":
+              {
+                  "$user":
+                  {
+                      ".write": "(auth.uid !== null && auth.uid === $user) || ( (data.parent().child('settings').child('allowUnSignedIn').val() === true && auth.uid === null) ) || (auth.uid !== null && root.child('users/'+auth.uid+'/access').val() !== null && root.child('users/'+auth.uid+'/access').val() === true)",
+                      ".validate": "(data.val() === null || data.parent().parent().child('settings').child('allowChanges').val() === true) && ( (auth.uid !== null && newData.isNumber() && newData.val() !== null && $user === auth.uid) || ((data.parent().parent().child('settings').child('allowUnSignedIn').val() === true && auth.uid === null && newData.isNumber() && newData.val() !== null)) ) || (auth.uid !== null && root.child('users/'+auth.uid+'/access').val() !== null && root.child('users/'+auth.uid+'/access').val() === true)"
+                  },
+                  ".validate": "(newData.val() === null && (auth.uid !== null && root.child('users/'+auth.uid+'/access').val() !== null && root.child('users/'+auth.uid+'/access').val() === true)) 
+                          || (data.parent().child('settings').child('locked').val() !== true) && ( (auth.uid !== null && (newData.hasChildren([auth.uid]))) || (data.parent().child('settings').child('allowUnSignedIn').val() === true) )"
+              },
+              "result":
+              {
+                  "$option":
+                  {
+                      ".validate": "((data.parent().parent().child('settings').child('locked').val() !== true) && newData.isNumber() && (data.val() === null || newData.val() >= data.val()) && ( (auth.uid !== null && root.child('surveys').child($survey).child('responders').child(auth.uid).val() !== null && root.child('surveys').child($survey).child('responders').child(auth.uid).isNumber() && root.child('surveys').child($survey).child('responders').child(auth.uid).val() === newData.val() ) || (auth.uid === null && data.parent().parent().child('settings').child('allowUnSignedIn').val() === true))) || (auth.uid !== null && root.child('users/'+auth.uid+'/access').val() !== null && root.child('users/'+auth.uid+'/access').val() === true)"
+                  },
+                  ".validate": "((data.parent().child('settings').child('locked').val() !== true) && (newData.val() !== null)) || (auth.uid !== null && root.child('users/'+auth.uid+'/access').val() !== null && root.child('users/'+auth.uid+'/access').val() === true)"
+              },
+              "options":
+              {
+                  ".validate": "(auth.uid !== null && root.child('users/'+auth.uid+'/access').val() !== null && root.child('users/'+auth.uid+'/access').val() === true) && newData.isString()", 
+                  ".read": true
+              },
+              "settings":
+              {
+                  ".read": true,
+                  "allowUnSignedIn":
+                  {
+                      ".validate": "(newData.isBoolean() || newData.val() === null) && (auth.uid !== null && root.child('users/'+auth.uid+'/access').val() !== null && root.child('users/'+auth.uid+'/access').val() === true)"
+                  },
+                  "allowChanges":
+                  {
+                      ".validate": "(newData.isBoolean() || newData.val() === null) && (auth.uid !== null && root.child('users/'+auth.uid+'/access').val() !== null && root.child('users/'+auth.uid+'/access').val() === true)"
+                  },
+                  "locked":
+                  {
+                      ".validate": "(newData.isBoolean() || newData.val() === null) && (auth.uid !== null && root.child('users/'+auth.uid+'/access').val() !== null && root.child('users/'+auth.uid+'/access').val() === true)"
+                  },
+                  "$other":
+                  {
+                      ".validate": false
+                  },
+                  
+                  ".validate": "(auth.uid !== null && root.child('users/'+auth.uid+'/access').val() !== null && root.child('users/'+auth.uid+'/access').val() === true) 
+                      && (newData.hasChild('allowUnSignedIn') || newData.hasChild('allowChanges') || newData.hasChild('locked') || newData.val() === null)"
+              },
+              "title": 
+              {
+                  ".validate": "((newData.isString() && newData.val().length <= 50) || (newData.val() === null)) 
+                          && (auth.uid !== null && root.child('users/'+auth.uid+'/access').val() !== null && root.child('users/'+auth.uid+'/access').val() === true)"
+              },
+              "description": 
+              {
+                  ".validate": "((newData.isString() && newData.val().length <= 500) || (newData.val() === null)) 
+                          && (auth.uid !== null && root.child('users/'+auth.uid+'/access').val() !== null && root.child('users/'+auth.uid+'/access').val() === true)"
+              },
+              "$other":
+              {
+                  ".validate": false
+              },
+              ".write": "(auth.uid !== null && root.child('users/'+auth.uid+'/access').val() !== null && root.child('users/'+auth.uid+'/access').val() === true)
+                      || (newData.hasChild('responders') || newData.hasChild('result'))",
+              ".validate": "(auth.uid !== null && root.child('users/'+auth.uid+'/access').val() !== null && root.child('users/'+auth.uid+'/access').val() === true) || newData.hasChild('responders')
+                       || newData.hasChild('result')"
+          }
+      },
+      
+      "menus":
+      {
+          ".read": true,
+          
+          "$item":
+          {
+              "title":
+              {
+                  ".validate": "newData.isString() && newData.val().length <= 50",
+              },
+              
+              "links":
+              {
+                  "$link":
+                  {
+                      "title":
+                      {
+                          ".validate": "newData.isString() && newData.val().length <= 50"
+                      },
+                      
+                      "pageName":
+                      {
+                          ".validate": "newData.isString() && newData.val().length <= 50"
+                      }
+                  }
+              }
+          },
+          
+          ".write": "auth.uid !== null && (auth.uid !== null && root.child('users/'+auth.uid+'/access').val() !== null && root.child('users/'+auth.uid+'/access').val() === true)"
+      },
+      
+      "users":
+      {
+          "$user":
+          {
+              ".read": true,
+              "access":
+              {
+                  ".read": true,
+                  ".validate": "newData.val() !== null && newData.isBoolean() && newData.val() === false || newData.val() === null"
+              },
+              
+              "pages":
+              {
+                  "$page":
+                  {
+                      "text":
+                      {
+                          ".validate": "newData.isString() && (newData.val().length < 5000 || 
+                                root.child('users/'+auth.uid+'/access').val() === true)"
+                      },
+                      
+                      "timeReleased":
+                      {
+                          ".validate": "newData.isNumber() && newData.val() <= now" 
+                      },
+                        
+                        "index":
+                      {
+                        ".validate": "$page === newData.val() + ''"
+                      },
+                      
+                      "$other":
+                      {
+                          ".validate": false
+                      },
+                        
+                      ".validate": "(newData.hasChildren(['text', 'timeReleased', 'index'])
+                    && newData.child('index').isNumber() 
+                    && newData.child('index').val() + '' === $page
+                    &&((auth.uid !== null && root.child('users/' + auth.uid + '/pages').child((newData.child('index').val() - 1)+'').exists())
+                       || newData.child('index').val() === 0)
+                    && newData.child('index').val() <= 10
+                    && newData.child('text').isString() 
+                    && newData.child('timeReleased').isNumber()) || newData.val() === null"
+                  }
+              },
+              
+              ".write": "auth.uid !== null && auth.uid === $user",
+              
+              ".validate": "newData.val() === null || newData.hasChild('pages') || newData.hasChild('access')",
+              
+              ".indexOn": ["access"]
+          }
+      }
+    }
+  }
+  
