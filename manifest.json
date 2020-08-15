@@ -1,0 +1,11 @@
+  {
+    "name": "Hack 20",
+    "version": "1.0",
+    "description": "This extension allows you to annotate websites and start discussion threads",
+    "permissions": ["storage"],
+    "background": {
+        "scripts": ["background.js"],
+        "persistent": false
+      },
+    "manifest_version": 2
+  }
