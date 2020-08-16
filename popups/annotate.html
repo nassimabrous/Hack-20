@@ -3,18 +3,45 @@
     <head>
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-        <link rel = "stylesheet" href="style.css"/>
+        <link rel = "stylesheet" href="annotate.css"/>
 
         <title>CoAnnote</title>
     </head>
     <body>
-        <img src='icons/popup-action-48.png' id='logo'>
+        <img src='/icons/popup-action-48.png' id='logo'>
         <header>
             <h1> CoAnnote </h1>
         </header>
-        
+
+        <div class="topnav">
+            <a class="active" href="#home">Home</a>
+            <a href="#annotate">Annotate</a>
+        </div> 
+
         <main> 
-            <article id="annotate-view">
+            <!-- <Main Menu View -->
+            <article id="main-view" class="hidden">
+                <p>
+                   
+                </p>
+            </article>
+
+             <!-- <Quote Menu View -->
+            <article id="quote-view" class="hidden">
+                <p>
+                    
+                </p>
+            </article>
+
+             <!-- <Annotation Menu View -->
+            <article id="annotation-view" class="hidden">
+                <p>
+                    
+                </p>
+            </article>
+
+            <!-- Annotation View -->
+            <article id="annotating-view">
                 <p>
                     <label>Your next annotation:</label>
                     <textarea id="annotation" name="annotation" rows="4" cols="20">
@@ -30,5 +57,7 @@
         </div>
     </body>
 
+    <script src = "/Libs/LibJS/FullLibJS.js"></script>
+    <script src = "https://www.gstatic.com/firebasejs/7.18.0/firebase.js"></script>
     <script src = "annotate.js"></script>
 </html>

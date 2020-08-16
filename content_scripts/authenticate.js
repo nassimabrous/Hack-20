@@ -20,6 +20,8 @@ function main()
     SubWindowHelper.alert("Test!", "Description");
     //EditorHelper.openWindowedEditor();
     JSHelper.Notifier.notify(JSHelper.GlobalEvents.PAGE_SETUP_COMPLETE);
+
+    AuthHelper.signIn();
 }
 
 main();
