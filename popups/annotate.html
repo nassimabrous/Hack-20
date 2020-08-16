@@ -1,76 +1,74 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8"/>
-        <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-        <link rel = "stylesheet" href="annotate.css"/>
-        <link rel = "stylesheet" href="authenticate.css"/>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+    <link rel="stylesheet" href="annotate.css"/>
+    <link rel="stylesheet" href="authenticate.css"/>
 
-        <title>CoAnnote</title>
-    </head>
-    <body>
-        <div id="authRegion"></div>
+    <title>CoAnnote</title>
+</head>
+<body>
+<div id="authRegion"></div>
 
-        <img src='/icons/annotate-2048.png' id='logo'>
-        <header>
-            <h1> CoAnnote </h1>
-        </header>
+<img src='/icons/annotate-2048.png' id='logo'>
+<header>
+    <h1> CoAnnote </h1>
+</header>
 
-        <div class="topnav">
-            <a class="active" id="home" >Home</a>
-            <a id="annotate">Annotate</a>
-        </div> 
+<div class="topnav">
+    <a class="active" id="home">Home</a>
+    <a id="annotate">Annotate</a>
+</div>
 
-        <main> 
-            <!-- <Main Menu View -->
-            <article id="main-view" class="hidden">
-                <p>
-                    <div class="vertical-btn-group" id="existingCollectionsView">
-                        
-                    </div>
-
-                    <button class="button" id="newCollection">Add Collection</button>
-                </p>
-            </article>
-
-             <!-- <Quote Menu View -->
-            <article id="quote-view" class="hidden">
-                <p>
-                    <div class="vertical-btn-group">
-                        <button></button>
-                        <button></button>
-                        <button></button>
-                    </div>
-                </p>
-            </article>
-
-             <!-- <Annotation Menu View -->
-            <article id="annotation-view" class="hidden">
-                <p>
-                    
-                </p>
-            </article>
-
-            <!-- Annotation View -->
-            <article id="annotate-view">
-                <div>
-                    <label>Your next annotation:</label>
-                    <textarea id="annotation" name="annotation" 
-                            rows="4" placeHolder="Enter your annotation here!"></textarea>
-                    <button class="button" id = "mainButton">Add Annotation</button>
-                </div>
-            </article>
-
-        </main>
-        <div id="popup-content">
-            <button class="button" id = "mainButton">Add Annotation</button>
+<main>
+    <!-- <Main Menu View -->
+    <article id="main-view" class="hidden">
+        <p>
+        <div class="vertical-btn-group" id="existingCollectionsView">
+            <button>dummy page 1</button>
+            <button class="button" id="newCollection">Add Collection</button>
         </div>
-    </body>
 
-    <script src = "/Libs/LibJS/FullLibJS.js"></script>
-    <script src = "https://www.gstatic.com/firebasejs/7.18.0/firebase.js"></script>
-    <script src = "/Libs/DataModel.js"></script>
+        <button class="button" id="newCollection">Add Collection</button>
+        </p>
+    </article>
 
-    <script src = "annotate.js"></script>
-    <script src = "authenticate.js"></script>
+    <!-- <Quote Menu View -->
+    <article id="quote-view" class="hidden">
+        <p>
+        <div class="vertical-btn-group">
+            <button>dummy quote 1</button>
+            <button>dummy quote 1</button>
+            <button>dummy quote 1</button>
+        </div>
+        </p>
+    </article>
+
+    <!-- <Annotation Menu View -->
+    <article id="annotation-view" class="hidden">
+        <p>
+
+        </p>
+    </article>
+
+    <!-- Annotation View -->
+    <article id="annotate-view">
+        <div>
+            <label>Your next annotation:</label>
+            <textarea id="annotation" name="annotation"
+                      rows="4" placeHolder="Enter your annotation here!"></textarea>
+            <button class="button" id="add-button">Add Annotation</button>
+        </div>
+    </article>
+
+</main>
+</body>
+
+<script src="/Libs/LibJS/FullLibJS.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.18.0/firebase.js"></script>
+<script src="/Libs/DataModel.js"></script>
+
+<script src="annotate.js"></script>
+<script src="authenticate.js"></script>
 </html>
