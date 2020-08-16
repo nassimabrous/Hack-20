@@ -1,0 +1,27 @@
+service firebase.storage 
+{
+  match /b/{bucket}/o 
+  {
+    match /{allPaths=**} 
+    {
+      allow read;
+    }
+    
+    match /profile_photos
+    {
+    	match /{imageID}
+      {
+      	allow write: if request.auth.uid != null
+        						/* && request.auth.token.email_verified == true */
+                      && "_" + request.auth.uid + ".png" == imageID
+                      &&
+                      (resource == null || request.resource == null || (
+                        request.resource.size < 4 * 1024 * 1024 /* Less than 4 MB */
+                        && imageID.size() < 128 /* Less than 128-character id. */
+                        && request.resource.contentType.matches("image/.*") /* And, it is an image. */
+                        && request.resource.contentType == resource.contentType)); 
+                      			/* And the user actually requested that resource. */
+      }
+    }
+  }
+}
