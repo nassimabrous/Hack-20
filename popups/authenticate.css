@@ -16,5 +16,8 @@
 
     flex-shrink: 0;
 
+    background: radial-gradient(rgba(255, 255, 255, 0.85), rgba(200, 200, 200, 0.6));
+    background-size: 4px 4px;
+
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
 }

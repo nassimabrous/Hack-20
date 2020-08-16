@@ -10,6 +10,11 @@ function main()
         window.close();
     });
 
+    function init() {
+        //makerequest() ? fetch json object from API?
+        id()
+    }
+
     button.focus();
 }
 
