@@ -27,7 +27,7 @@ async function main()
             );
 
             let tab = await getCurrentTab();
-            await DataModel.createCollection(tab.url, title);
+            await DataModel.createCollection(tab.url, title.Title);
         }
         catch(e)
         {

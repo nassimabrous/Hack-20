@@ -271,19 +271,27 @@
 
         if (annotations.exists)
         {
-            let data = annotations.data();
-
-            data.forEach((doc) =>
-            {
-                // Perhaps a check for whether doc.id and myUid match?
-                result.push
-                (
-                    doc // To-do: determine exactly what doc gives us.
-                );
-
-                console.log(doc);
-            });
+            
         }
+        else
+        {
+            console.log("Annotations doesn't exist yet!");
+        }
+
+        let data = annotations.data();
+
+        data.forEach((doc) =>
+        {
+            console.log(doc.id);
+
+            // Perhaps a check for whether doc.id and myUid match?
+            result.push
+            (
+                doc // To-do: determine exactly what doc gives us.
+            );
+
+            console.log(doc);
+        });
 
         console.log("In data model: ")
         console.log(result);
@@ -308,7 +316,7 @@
         let myUid = await AuthHelper.getUid();
 
         let myAnnotations = allAnnotations.doc(myUid);
-        let nextAnnotationId = await myAnnotations.collection("data").doc("keyCount");
+        let nextAnnotationId = await myAnnotations.collection("data").doc("keyCount").get();
         let nextKeyId = 0;
 
         if (nextAnnotationId.exists)
@@ -317,7 +325,7 @@
         }
 
         await myAnnotations.collection("data").doc("keyCount").set({ data: nextKeyId });
-        await myAnnotations.collection("annotations").doc(nextKeyId).set
+        await myAnnotations.collection("annotations").doc(nextKeyId + "").set
         (
             {
                 subject: subject,
@@ -354,7 +362,7 @@
         let myUid = await AuthHelper.getUid();
 
         let myAnnotations = allAnnotations.doc(myUid);
-        await myAnnotations.collection("annotations").doc(annotationId).delete();
+        await myAnnotations.collection("annotations").doc(annotationId + "").delete();
     };
     MethodValueToMethodMap[Methods.DESTROY_ANNOTATION] = DataModel.deleteAnnotation;
 
@@ -403,7 +411,7 @@
             {
                 //try
                 //{
-                    const result = await MethodValueToMethodMap[message.method].apply(DataModel, message.args);
+                    const result = await MethodValueToMethodMap[message.method].apply(this, message.args);
                 
                     response(result);
                 //}

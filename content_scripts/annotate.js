@@ -1,6 +1,6 @@
 "use strict"; // Stricter JavaScript rules!
 
-const REFRESH_DELAY = 14000;
+const REFRESH_DELAY = 500;
 DataModel.setMode(false); // We are in a content script.
 
 async function main()
@@ -40,7 +40,7 @@ async function main()
     );
 
     // Display other users' comments:
-    setInterval(async () =>
+    setTimeout(async () =>
     {
         var currentCollectionId = await DataModel.getCurrentCollection();
         var annotations = await DataModel.getCollectionAnnotations(currentCollectionId);
