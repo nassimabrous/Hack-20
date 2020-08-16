@@ -46,17 +46,20 @@
         GET_COLLECTION_ANNOTATIONS: 8,
         CREATE_ANNOTATION: 9,
         DESTROY_ANNOTATION: 10,
-        DESTROY_COLLECTION: 11
+        DESTROY_COLLECTION: 11,
+        NOTE_CURRENT_COLLECTION: 12,
+        GET_CURRENT_COLLECTION_ID: 13,
     };
 
     // All methods in this map should be async.
     var MethodValueToMethodMap =
     {
-
+        // Filled after definitions of methods.
     };
 
     // Whether we are in the extension-side script.
-    var extensionSide = self.CloudHelper ? true : false;
+    var extensionSide = self.CloudHelper ? true : false; // Attempt to auto-detect...
+    let currentCollection = undefined;
 
     /**
      * 
@@ -73,7 +76,7 @@
     /**
      * Get publicly-available user data.
      * 
-     * @param {string} uid is the unique identifier of the desired
+     * @param {String} uid is the unique identifier of the desired
      *  user.
      * @returns (Via a promise) an empty dictionary if no such 
      *  user exists, otherwise, a dictionary with the following
@@ -88,14 +91,14 @@
      */
     DataModel.getUserDataFromUid = async (uid) =>
     {
-        if (!uid)
-        {
-            uid = AuthHelper.getUid();
-        }
-
         if (!extensionSide)
         {
             return await requestData(Methods.GET_USER_DATA_FROM_UID, uid);
+        }
+
+        if (!uid)
+        {
+            uid = await AuthHelper.getUid();
         }
 
         let database = await CloudHelper.awaitComponent(CloudHelper.Service.FIRESTORE);
@@ -135,6 +138,11 @@
         return result;
     };
 
+    /**
+     * Get a list of all collection IDs defined for a given url.
+     * @param {String} pageURL The URL to consider -- converted to lowercase
+     *      and portions after & including a '#' are stripped.
+     */
     DataModel.getPageCollections = async (pageURL) =>
     {
         pageURL = filterURL(pageURL);
@@ -166,7 +174,26 @@
 
     DataModel.createCollection = async (pageURL, title) =>
     {
+        pageURL = filterURL(pageURL);
 
+        if (!extensionSide)
+        {
+            return await requestData(Methods.NEW_COLLECTION, pageURL, title);
+        }
+
+        let database = await CloudHelper.awaitComponent(CloudHelper.Service.FIRESTORE);
+        let pagesDoc = database.collection("pages").doc(pageURL);
+        let myUid = await AuthHelper.getUid();
+
+        let groupRef = await database.collection("annotationGroups").add
+        (
+            {
+                "owner": myUid,
+                "title": title
+            }
+        );
+
+        await pagesDoc.doc(groupRef.id).set(myUid);
     };
     MethodValueToMethodMap[Methods.NEW_COLLECTION] = DataModel.createCollection;
 
@@ -224,6 +251,28 @@
 
     };
     MethodValueToMethodMap[Methods.DESTROY_COLLECTION] = DataModel.deleteCollection;
+
+    DataModel.setCurrentCollection = async (collectionId) =>
+    {
+        if (!extensionSide)
+        {
+            return await requestData(Methods.NOTE_CURRENT_COLLECTION, collectionId);
+        }
+
+        currentCollection = collectionId;
+    };
+    MethodValueToMethodMap[Methods.NOTE_CURRENT_COLLECTION] = DataModel.setCurrentCollection;
+
+    DataModel.getCurrentCollection = async () =>
+    {
+        if (!extensionSide)
+        {
+            return await requestData(Methods.GET_CURRENT_COLLECTION_ID);
+        }
+
+        return currentCollection;
+    };
+    MethodValueToMethodMap[Methods.GET_CURRENT_COLLECTION_ID] = DataModel.getCurrentCollection;
 
     /**
      * Start listening for requests from the content scripts, if on

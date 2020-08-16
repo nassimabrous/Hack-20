@@ -2,34 +2,77 @@
 
 function main()
 {
+    DataModel.startServer();
+
     let button = document.querySelector("#mainButton");
 
     button.addEventListener("click", () =>
     {
-        chrome.tabs.executeScript(null, {file: "/content_scripts/annotate.js"});
-        window.close();
+        modifyTabContent();
     });
 
     function init() {
         //makerequest() ? fetch json object from API?
         id("home").addEventListener("click", home);
         id("annotate").addEventListener("click", annotate);
+        home(); // Show home initially.
     }
 
     function home() {
-        id("main-view").classlist.remove("hidden");
-        id("quote-view").classlist.add("hidden");
-        id("annotation-view").classlist.add("hidden");
-        id("annotate-view").classlist.add("hidden");
+        id("home").classList.add("active");
+        id("annotate").classList.remove("active");
+        
+        id("main-view").classList.remove("hidden");
+        id("quote-view").classList.add("hidden");
+        id("annotation-view").classList.add("hidden");
+        id("annotate-view").classList.add("hidden");
+
+        // Show present collections...
+        chrome.tabs.query({ active: true }, async (tabs) =>
+        {
+            let tab = tabs[0];
+
+            SubWindowHelper.alert("", tab.url);
+
+            const collectionsView = id("existingCollectionsView");
+            let collections = await DataModel.getPageCollections(tab.url);
+    
+            for (const collection of collections)
+            {
+                HTMLHelper.addButton(collection, collectionsView, () =>
+                {
+                    DataModel.setCurrentCollection(collection);
+                    
+                    modifyTabContent();
+                });
+            }
+        });
     }
 
     function annotate() {
-        id("annotate-view").classlist.remove("hidden");
-        id("main-view").classlist.add("hidden");
-        id("quote-view").classlist.add("hidden");
-        id("annotation-view").classlist.add("hidden");
+        id("annotate").classList.add("active");
+        id("home").classList.remove("active");
+
+        id("annotate-view").classList.remove("hidden");
+        id("main-view").classList.add("hidden");
+        id("quote-view").classList.add("hidden");
+        id("annotation-view").classList.add("hidden");
     }
 
+    function modifyTabContent()
+    {
+        chrome.tabs.executeScript(null, {file: "/Libs/LibJS/FullLibJS.js"}, () =>
+        {
+            chrome.tabs.executeScript(null, {file: "/Libs/DataModel.js"}, () =>
+            {
+                chrome.tabs.insertCSS(null, {file: "/content_scripts/anotationStyles.css"});
+                chrome.tabs.executeScript(null, {file: "/content_scripts/annotate.js"});
+                window.close(); // We can close the pop-up window...
+            });
+        });
+    }
+
+    init();
 
     button.focus();
 }

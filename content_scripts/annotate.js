@@ -1,21 +1,18 @@
 "use strict"; // Stricter JavaScript rules!
 
-// Ref: https://javascript.info/selection-range
-document.documentElement.addEventListener("selectstart", () =>
+DataModel.setMode(false); // We are in a content script.
+
+function main()
 {
-
-});
-
-document.documentElement.addEventListener("selectchange", () =>
-{
-    const { anchorNode, anchorOffset, focusedNode, focusOffset } = document.getSelection();
-
-    // No selection?
-    if (!anchorNode || !focusedNode)
+    // See SubWindowHelper's source for a complete list of options.
+    const controlWindow = SubWindowHelper.create(
     {
-        return;
-    }
+        title: "Tools" 
+    });
+}
 
-    anchorNode.innerHTML = anchorNode.innerHTML.substring(0, anchorOffset) + "<b>" 
-                    + anchorNode.innerHTML.substring(anchorOffset)  + "</b>";
-});
+main();
+
+// ** Remove this when done debugging!!! **
+// Ctrl-I opens a debug terminal in the extension's scope.
+requestAnimationFrame(() => EditorHelper.openWindowedEditor());
