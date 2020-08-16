@@ -8,16 +8,13 @@ function main()
     {
         chrome.tabs.executeScript({file: "/Libs/firebase/firebase.js"}, function()
         {
-            requestAnimationFrame(function()
+            chrome.tabs.executeScript({file: "/Libs/firebase/firebaseInit.js"}, function()
             {
-                chrome.tabs.executeScript({file: "/Libs/firebase/firebaseInit.js"}, function()
-                {
-                    chrome.tabs.executeScript({file: "/Libs/LibJS/FullLibJS.js"});
-                    chrome.tabs.executeScript({file: "/content_scripts/authenticate.js"});
-                    chrome.tabs.executeScript({file: "/content_scripts/annotate.js"});
+                chrome.tabs.executeScript({file: "/Libs/LibJS/FullLibJS.js"});
+                chrome.tabs.executeScript({file: "/content_scripts/authenticate.js"});
+                chrome.tabs.executeScript({file: "/content_scripts/annotate.js"});
 
-                    window.close();
-                });
+                window.close();
             });
         });
     });

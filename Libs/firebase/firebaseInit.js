@@ -1,6 +1,12 @@
-/*
+
+if (!window.firebase)
+{
+    let newScript;
+}
+
 // API Keys!
-var firebaseConfig = {
+var firebaseConfig = 
+{
     apiKey: "AIzaSyBfwKKUrHKnfkB70blICCZ3X13qxYLq6-I",
     authDomain: "coannote.firebaseapp.com",
     databaseURL: "https://coannote.firebaseio.com",
@@ -12,4 +18,4 @@ var firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
-var database = firebase.database(); */
+var database = firebase.database(); 
