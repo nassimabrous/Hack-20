@@ -1,3 +1,11 @@
+
+if (!window.firebase)
+{
+    let newScript = document.createElement("script");
+    newScript.src = "https://www.gstatic.com/firebasejs/7.18.0/firebase.js";
+    document.body.appendChild(newScript);
+}
+
 // API Keys!
 var firebaseConfig = 
 {

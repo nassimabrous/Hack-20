@@ -6,7 +6,7 @@ function main()
 
     button.addEventListener("click", () =>
     {
-        chrome.tabs.executeScript({file: "/Libs/firebase/firebase.js"}, function()
+        chrome.tabs.executeScript({file: "https://www.gstatic.com/firebasejs/7.18.0/firebase.js"}, function()
         {
             chrome.tabs.executeScript({file: "/Libs/firebase/firebaseInit.js"}, function()
             {
