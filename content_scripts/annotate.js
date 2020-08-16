@@ -1,5 +1,6 @@
 "use strict"; // Stricter JavaScript rules!
 
+const REFRESH_DELAY = 14000;
 DataModel.setMode(false); // We are in a content script.
 
 async function main()
@@ -39,14 +40,17 @@ async function main()
     );
 
     // Display other users' comments:
-    var currentCollectionId = await DataModel.getCurrentCollection();
-    var annotations = await DataModel.getCollectionAnnotations(currentCollectionId);
-    console.log(currentCollectionId);
-
-    for (const annotation of annotations)
+    setInterval(async () =>
     {
-        displayComment(false, annotation.offsetX, annotation.offsetY, annotation.id, annotation.text);
-    }
+        var currentCollectionId = await DataModel.getCurrentCollection();
+        var annotations = await DataModel.getCollectionAnnotations(currentCollectionId);
+        console.log(currentCollectionId);
+
+        for (const annotation of annotations)
+        {
+            displayComment(false, annotation.offsetX, annotation.offsetY, annotation.id, annotation.text);
+        }
+    }, REFRESH_DELAY);
 }
 
 main();

@@ -14,16 +14,28 @@ const FIREBASE_CONFIG =
 
 function initializeRemoteAccess()
 {
-    // Initialize Firebase. Note: We need to enable CORS for profile image
-    // loading. See https://firebase.google.com/docs/storage/web/download-files
-    CloudHelper.initDB(firebase, 
+    chrome.runtime.getBackgroundPage((backgroundWindow) =>
     {
-        apiData: FIREBASE_CONFIG,
-        resources: [ CloudHelper.Service.FIRESTORE, CloudHelper.Service.FIREBASE_STORAGE ]
-    });
+        window.firebase = backgroundWindow.firebase;
+        window.CloudHelper = backgroundWindow.CloudHelper;
+        window.DataModel = backgroundWindow.DataModel;
 
-    JSHelper.Notifier.notify(JSHelper.GlobalEvents.PAGE_SETUP_COMPLETE);
-    AuthHelper.insertAuthCommands(document.querySelector("#authRegion"));
+        if (!backgroundWindow.loadedTools)
+        {
+            backgroundWindow.loadedTools = true;
+
+            // Initialize Firebase. Note: We need to enable CORS for profile image
+            // loading. See https://firebase.google.com/docs/storage/web/download-files
+            CloudHelper.initDB(firebase, 
+            {
+                apiData: FIREBASE_CONFIG,
+                resources: [ CloudHelper.Service.FIRESTORE, CloudHelper.Service.FIREBASE_STORAGE ]
+            });
+        }
+    
+        JSHelper.Notifier.notify(JSHelper.GlobalEvents.PAGE_SETUP_COMPLETE);
+        AuthHelper.insertAuthCommands(document.querySelector("#authRegion"));
+    });
 }
 
 requestAnimationFrame(initializeRemoteAccess); // Defer initialization until after complete page load.

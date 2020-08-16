@@ -1,7 +1,9 @@
 "use strict";
 
-function main()
+async function main()
 {
+    await JSHelper.Notifier.waitFor(JSHelper.GlobalEvents.PAGE_SETUP_COMPLETE);
+    DataModel.setMode(true);
     DataModel.startServer();
 
     let button = document.querySelector("#mainButton");
@@ -97,7 +99,8 @@ function main()
             {
                 chrome.tabs.insertCSS(null, {file: "/content_scripts/annotationStyles.css"});
                 chrome.tabs.executeScript(null, {file: "/content_scripts/annotate.js"});
-                window.close(); // We can close the pop-up window...
+
+                window.close();
             });
         });
     }

@@ -285,6 +285,9 @@
             });
         }
 
+        console.log("In data model: ")
+        console.log(result);
+        console.log("--------------");
 
         return result;
     };
@@ -310,10 +313,10 @@
 
         if (nextAnnotationId.exists)
         {
-            nextKeyId = nextAnnotationId.data() + 1;
+            nextKeyId = nextAnnotationId.data().data + 1;
         }
 
-        await myAnnotations.collection("data").doc("keyCount").set(nextKeyId);
+        await myAnnotations.collection("data").doc("keyCount").set({ data: nextKeyId });
         await myAnnotations.collection("annotations").doc(nextKeyId).set
         (
             {
@@ -394,18 +397,20 @@
         // See https://www.originate.com/chrome-extension-firebase-real-time-database/.
         chrome.runtime.onMessage.addListener(async (message, sender, response) =>
         {
+            console.log(message);
+
             if (MethodValueToMethodMap[message.method])
             {
-                try
-                {
+                //try
+                //{
                     const result = await MethodValueToMethodMap[message.method].apply(DataModel, message.args);
                 
                     response(result);
-                }
-                catch(e)
-                {
-                    response({ error: e, inErrorState: true });
-                }
+                //}
+               // catch(e)
+                //{
+                   // response({ error: e, inErrorState: true });
+                //}
             }
             else
             {
@@ -422,7 +427,7 @@
                 { method: method, args: args }, 
             (response) =>
             {
-                console.log("RESPONSE!!!!!");
+                console.log("RESPONSE:");
                 console.log(response);
 
                 if (response && response.inErrorState && response.error)
