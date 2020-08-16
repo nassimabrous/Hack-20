@@ -57,17 +57,25 @@ function main()
 
         const collectionsView = id("existingCollectionsView");
         collectionsView.innerHTML = "";
-        
+
         let collections = await DataModel.getPageCollections(tab.url);
 
+        // For each that we got from the server...
         for (const collection of collections)
         {
-            HTMLHelper.addButton(collection, collectionsView, () =>
+            const info = await DataModel.getCollectionInfo(collection);
+
+            const newButton = HTMLHelper.addButton(info.title, collectionsView, () =>
             {
                 DataModel.setCurrentCollection(collection);
 
                 modifyTabContent();
             });
+
+            if (!info.haveAccess)
+            {
+                newButton.classList.add("unauthorized");
+            }
         }
     }
 

@@ -213,7 +213,33 @@
 
     DataModel.getCollectionInfo = async (collectionId) =>
     {
+        if (!extensionSide)
+        {
+            return await requestData(Methods.GET_COLLECTION_INFO, collectionId);
+        }
 
+        let database = await CloudHelper.awaitComponent(CloudHelper.Service.FIRESTORE);
+        let doc = database.collection("annotationGroups").doc(collectionId);
+        let resultDoc = await doc.get(); // TODO Make sure this isn't getting ALL of the annotations
+        // in the document, too!
+
+        let myUid = await AuthHelper.getUid();
+
+        let result = [];
+
+        if (resultDoc.exists)
+        {
+            result = resultDoc.data();
+            result.title = result.title.Title; // Simplify.
+
+            if (result.members && result.members[myUid]
+                || result.owner == myUid)
+            {
+                result.haveAccess = true;
+            }
+        }
+
+        return result;
     };
     MethodValueToMethodMap[Methods.GET_COLLECTION_INFO] = DataModel.getCollectioninfo;
 

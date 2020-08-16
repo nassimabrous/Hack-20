@@ -12,7 +12,3 @@ function main()
 }
 
 main();
-
-// ** Remove this when done debugging!!! **
-// Ctrl-I opens a debug terminal in the extension's scope.
-requestAnimationFrame(() => EditorHelper.openWindowedEditor());

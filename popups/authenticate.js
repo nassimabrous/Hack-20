@@ -23,7 +23,7 @@ function initializeRemoteAccess()
     });
 
     JSHelper.Notifier.notify(JSHelper.GlobalEvents.PAGE_SETUP_COMPLETE);
-    AuthHelper.insertAuthCommands(document.body);
+    AuthHelper.insertAuthCommands(document.querySelector("#authRegion"));
 }
 
 requestAnimationFrame(initializeRemoteAccess); // Defer initialization until after complete page load.
