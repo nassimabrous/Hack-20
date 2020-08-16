@@ -66,6 +66,7 @@ async function main()
         for (const collection of collections)
         {
             const info = await DataModel.getCollectionInfo(collection);
+            console.log(info);
 
             const newButton = HTMLHelper.addButton(info.title, collectionsView, () =>
             {

@@ -229,7 +229,7 @@
         if (resultDoc.exists)
         {
             result = resultDoc.data();
-            result.title = result.title.Title; // Simplify.
+            result.title = result.title.Title || result.title; // Simplify.
 
             if (result.members && result.members[myUid]
                 || result.owner == myUid)
