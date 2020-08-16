@@ -95,7 +95,7 @@ function main()
         {
             chrome.tabs.executeScript(null, {file: "/Libs/DataModel.js"}, () =>
             {
-                chrome.tabs.insertCSS(null, {file: "/content_scripts/anotationStyles.css"});
+                chrome.tabs.insertCSS(null, {file: "/content_scripts/annotationStyles.css"});
                 chrome.tabs.executeScript(null, {file: "/content_scripts/annotate.js"});
                 window.close(); // We can close the pop-up window...
             });

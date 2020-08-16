@@ -1,0 +1,15 @@
+.commentWindow.windowContainer
+{
+    background-color: rgba(255, 255, 255, 0.9);
+    border-bottom-left-radius: 12px;
+}
+
+.commentWindowTitleBar.windowContainerTitleBar
+{
+    background-image: none;
+    background-color: rgba(255, 255, 255, 0);
+    color: black;
+
+    text-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+    box-shadow: none;
+}
