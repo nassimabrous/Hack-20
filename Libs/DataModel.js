@@ -36,7 +36,17 @@
     const Methods =
     {
         GET_USER_DATA_FROM_UID: 0,
-        GET_NOTE_COLLECTIONS: 1
+        GET_NOTE_COLLECTIONS: 1,
+        NEW_COLLECTION: 2,
+        INVITE_TO_COLLECTION: 3,
+        KICK_FROM_COLLECTION: 4,
+        GET_COLLECTION_INFO: 5,
+        REQUEST_JOIN_COLLECTION: 6,
+        GET_COLLECTION_OWNER: 7,
+        GET_COLLECTION_ANNOTATIONS: 8,
+        CREATE_ANNOTATION: 9,
+        DESTROY_ANNOTATION: 10,
+        DESTROY_COLLECTION: 11
     };
 
     // All methods in this map should be async.
@@ -78,6 +88,11 @@
      */
     DataModel.getUserDataFromUid = async (uid) =>
     {
+        if (!uid)
+        {
+            uid = AuthHelper.getUid();
+        }
+
         if (!extensionSide)
         {
             return await requestData(Methods.GET_USER_DATA_FROM_UID, uid);
@@ -129,9 +144,86 @@
             return await requestData(Methods.GET_NOTE_COLLECTIONS, pageURL);
         }
 
-        
+        let database = await CloudHelper.awaitComponent(CloudHelper.Service.FIRESTORE);
+        let doc = database.collection("pages").doc(pageURL);
+        let docData = await doc.get();
+
+        let result = [];
+
+        if (docData.exists)
+        {
+            let data = docData.data();
+
+            for (const groupId of data)
+            {
+                result.push(groupId);
+            }
+        }
+
+        return result;
     };
     MethodValueToMethodMap[Methods.GET_NOTE_COLLECTIONS] = DataModel.getPageCollections;
+
+    DataModel.createCollection = async (pageURL, title) =>
+    {
+
+    };
+    MethodValueToMethodMap[Methods.NEW_COLLECTION] = DataModel.createCollection;
+
+    DataModel.inviteToCollection = async (otherUid) =>
+    {
+
+    };
+    MethodValueToMethodMap[Methods.INVITE_TO_COLLECTION] = DataModel.inviteToCollection;
+
+    DataModel.kickFromCollection = async (otherUid) =>
+    {
+
+    };
+    MethodValueToMethodMap[Methods.KICK_FROM_COLLECTION] = DataModel.KICK_FROM_COLLECTION;
+
+    DataModel.getCollectionInfo = async (collectionId) =>
+    {
+
+    };
+    MethodValueToMethodMap[Methods.GET_COLLECTION_INFO] = DataModel.getCollectioninfo;
+
+    DataModel.requestJoinCollection = async (collectionId) =>
+    {
+
+    };
+    MethodValueToMethodMap[Methods.REQUEST_JOIN_COLLECTION] = DataModel.requestJoinCollection;
+
+    DataModel.getCollectionOwner = async (collectionId) =>
+    {
+
+    };
+    MethodValueToMethodMap[Methods.GET_COLLECTION_OWNER] = DataModel.getCollectionOwner;
+
+    DataModel.getCollectionAnnotations = async (collectionId) =>
+    {
+        
+    };
+    MethodValueToMethodMap[Methods.GET_COLLECTION_ANNOTATIONS] = DataModel.getCollectionAnnotations;
+
+    DataModel.newAnnotation = async (collectionId, subject, content, 
+        anchor, offsetX, offsetY, timestamp) =>
+    {
+        
+    };
+    MethodValueToMethodMap[Methods.CREATE_ANNOTATION] = DataModel.newAnnotation;
+
+    DataModel.deleteAnnotation = async (collectionId, annotationId) =>
+    {
+
+    };
+    MethodValueToMethodMap[Methods.DESTROY_ANNOTATION] = DataModel.deleteAnnotation;
+
+    DataModel.deleteCollection = async (collectionId) =>
+    {
+
+    };
+    MethodValueToMethodMap[Methods.DESTROY_COLLECTION] = DataModel.deleteCollection;
 
     /**
      * Start listening for requests from the content scripts, if on
