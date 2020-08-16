@@ -1,0 +1,6 @@
+[submodule "Libs/Libs/LibJS"]
+	path = Libs/Libs/LibJS
+	url = https://github.com/personalizedrefrigerator/LibJS.git
+[submodule "Libs/LibJS"]
+	path = Libs/LibJS
+	url = https://github.com/personalizedrefrigerator/LibJS.git
