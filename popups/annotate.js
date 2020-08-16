@@ -11,6 +11,30 @@ function main()
         modifyTabContent();
     });
 
+    id("newCollection").addEventListener("click", async () =>
+    {
+        try
+        {
+            let title = await SubWindowHelper.prompt
+            (
+                "Title", 
+                "You're making a new collection! Give it a title!",
+                {
+                    "Title": "text"
+                }
+            );
+
+            let tab = await getCurrentTab();
+            await DataModel.createCollection(tab.url, title);
+        }
+        catch(e)
+        {
+            SubWindowHelper.alert("Error!", e);
+        }
+
+        home();
+    });
+
     function init() {
         //makerequest() ? fetch json object from API?
         id("home").addEventListener("click", home);
@@ -18,7 +42,7 @@ function main()
         home(); // Show home initially.
     }
 
-    function home() {
+    async function home() {
         id("home").classList.add("active");
         id("annotate").classList.remove("active");
         
@@ -28,25 +52,23 @@ function main()
         id("annotate-view").classList.add("hidden");
 
         // Show present collections...
-        chrome.tabs.query({ active: true }, async (tabs) =>
+        
+        let tab = await getCurrentTab();
+
+        const collectionsView = id("existingCollectionsView");
+        collectionsView.innerHTML = "";
+        
+        let collections = await DataModel.getPageCollections(tab.url);
+
+        for (const collection of collections)
         {
-            let tab = tabs[0];
-
-            SubWindowHelper.alert("", tab.url);
-
-            const collectionsView = id("existingCollectionsView");
-            let collections = await DataModel.getPageCollections(tab.url);
-    
-            for (const collection of collections)
+            HTMLHelper.addButton(collection, collectionsView, () =>
             {
-                HTMLHelper.addButton(collection, collectionsView, () =>
-                {
-                    DataModel.setCurrentCollection(collection);
-                    
-                    modifyTabContent();
-                });
-            }
-        });
+                DataModel.setCurrentCollection(collection);
+
+                modifyTabContent();
+            });
+        }
     }
 
     function annotate() {
@@ -106,4 +128,16 @@ function qs(query) {
  */
 function qsa(query) {
     return document.querySelectorAll(query);
+}
+
+// Returns a promise that will result in the url of the
+//current tab.
+function getCurrentTab() {
+    return new Promise((resolve) =>
+    {
+        chrome.tabs.query({ active: true }, async (tabs) =>
+        {
+            resolve(tabs[0]);
+        });
+    });
 }

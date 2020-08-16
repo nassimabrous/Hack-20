@@ -134,6 +134,7 @@
         }
 
         result = result.toLowerCase();
+        result = btoa(result);
 
         return result;
     };
@@ -154,19 +155,16 @@
 
         let database = await CloudHelper.awaitComponent(CloudHelper.Service.FIRESTORE);
         let doc = database.collection("pages").doc(pageURL);
-        let docData = await doc.get();
 
         let result = [];
 
-        if (docData.exists)
-        {
-            let data = docData.data();
+        let groups = await doc.collection("groups").get();
 
-            for (const groupId of data)
-            {
-                result.push(groupId);
-            }
-        }
+        groups.forEach((doc) =>
+        {
+            console.log("ADDED: " + doc.id);
+            result.push(doc.id);
+        });
 
         return result;
     };
@@ -193,7 +191,11 @@
             }
         );
 
-        await pagesDoc.doc(groupRef.id).set(myUid);
+        let pagesCollection = pagesDoc.collection("groups");
+
+
+
+        return await pagesCollection.doc(groupRef.id).set({ true: "true" });
     };
     MethodValueToMethodMap[Methods.NEW_COLLECTION] = DataModel.createCollection;
 
