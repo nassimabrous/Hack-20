@@ -2,7 +2,7 @@
 
 DataModel.setMode(false); // We are in a content script.
 
-function main()
+async function main()
 {
     // See SubWindowHelper's source for a complete list of options.
     const controlWindow = SubWindowHelper.create(
@@ -37,12 +37,22 @@ function main()
         },
         annotationMenu
     );
+
+    // Display other users' comments:
+    var currentCollectionId = await DataModel.getCurrentCollection();
+    var annotations = await DataModel.getCollectionAnnotations(currentCollectionId);
+    console.log(currentCollectionId);
+
+    for (const annotation of annotations)
+    {
+        displayComment(false, annotation.offsetX, annotation.offsetY, annotation.id, annotation.text);
+    }
 }
 
 main();
 
 // Helper methods
-function displayComment(editable, pageX, pageY)
+function displayComment(editable, pageX, pageY, annotationId, annotationText)
 {
     const commentWindow = SubWindowHelper.create
     (
@@ -51,7 +61,7 @@ function displayComment(editable, pageX, pageY)
             withPage: true,
             unsnappable: true,
             minHeight: 100,
-            minWidth: 300,
+            minWidth: 200,
             className: "commentWindow",
             noResize: !editable,
             fixed: !editable,
@@ -61,10 +71,17 @@ function displayComment(editable, pageX, pageY)
         }
     );
 
-    // Delete the comment...
+    // Delete the comment... if it's editable.
     commentWindow.setOnCloseListener(function()
     {
-        // TODO
+        if (editable && annotationId)
+        {
+            (async () =>
+            {
+                var currentCollectionId = await DataModel.getCurrentCollection();
+                await DataModel.deleteAnnotation(currentCollectionId, annotationId);
+            })();
+        }
     });
 
     commentWindow.enableFlex("column");
@@ -82,5 +99,20 @@ function displayComment(editable, pageX, pageY)
         saveButton.style.marginTop = "-3px";
 
         commentWindow.appendChild(saveButton);
+
+        saveButton.addEventListener("click", async () =>
+        {
+            let position = commentWindow.getXY();
+
+            var currentCollectionId = await DataModel.getCurrentCollection();
+            await DataModel.newAnnotation(currentCollectionId, "Subject",
+                textarea.value, "document.body", position.x, position.y, (new Date()).getTime());
+        });
+    }
+    else
+    {
+        let content = document.createElement("div");
+        content.textContent = annotationText;
+        commentWindow.appendChild(content);
     }
 }

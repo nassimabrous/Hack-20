@@ -162,7 +162,6 @@
 
         groups.forEach((doc) =>
         {
-            console.log("ADDED: " + doc.id);
             result.push(doc.id);
         });
 
@@ -257,26 +256,110 @@
 
     DataModel.getCollectionAnnotations = async (collectionId) =>
     {
-        
+        if (!extensionSide)
+        {
+            return await requestData(Methods.GET_COLLECTION_ANNOTATIONS, collectionId);
+        }
+
+        let database = await CloudHelper.awaitComponent(CloudHelper.Service.FIRESTORE);
+        let doc = database.collection("annotationGroups").doc(collectionId);
+        let annotations = await doc.collection("annotations").get();
+
+        let result = [];
+
+        let myUid = await AuthHelper.getUid();
+
+        if (annotations.exists)
+        {
+            let data = annotations.data();
+
+            data.forEach((doc) =>
+            {
+                // Perhaps a check for whether doc.id and myUid match?
+                result.push
+                (
+                    doc // To-do: determine exactly what doc gives us.
+                );
+
+                console.log(doc);
+            });
+        }
+
+
+        return result;
     };
     MethodValueToMethodMap[Methods.GET_COLLECTION_ANNOTATIONS] = DataModel.getCollectionAnnotations;
 
     DataModel.newAnnotation = async (collectionId, subject, content, 
         anchor, offsetX, offsetY, timestamp) =>
     {
-        
+        if (!extensionSide)
+        {
+            return await requestData(Methods.CREATE_ANNOTATION, collectionId, subject, content, 
+                anchor, offsetX, offsetY, timestamp);
+        }
+
+        let database = await CloudHelper.awaitComponent(CloudHelper.Service.FIRESTORE);
+        let collectionDoc = database.collection("annotationGroups").doc(collectionId);
+        let allAnnotations = collectionDoc.collection("annotations");
+        let myUid = await AuthHelper.getUid();
+
+        let myAnnotations = allAnnotations.doc(myUid);
+        let nextAnnotationId = await myAnnotations.collection("data").doc("keyCount");
+        let nextKeyId = 0;
+
+        if (nextAnnotationId.exists)
+        {
+            nextKeyId = nextAnnotationId.data() + 1;
+        }
+
+        await myAnnotations.collection("data").doc("keyCount").set(nextKeyId);
+        await myAnnotations.collection("annotations").doc(nextKeyId).set
+        (
+            {
+                subject: subject,
+                content: content,
+                anchor: anchor,
+                offsetX: offsetX,
+                offsetY: offsetY,
+                timestamp: (new Date()).getTime()
+            }
+        );
+
+        await collectionDoc.collection("mostRecentAnnotationId").doc("value").set
+        (
+            {
+                val: nextKeyId,
+                by: myUid
+            }
+        );
+
+        return nextKeyId;
     };
     MethodValueToMethodMap[Methods.CREATE_ANNOTATION] = DataModel.newAnnotation;
 
     DataModel.deleteAnnotation = async (collectionId, annotationId) =>
     {
+        if (!extensionSide)
+        {
+            return await requestData(Methods.DESTROY_ANNOTATION, collectionId, annotationId);
+        }
 
+        let database = await CloudHelper.awaitComponent(CloudHelper.Service.FIRESTORE);
+        let collectionDoc = database.collection("annotationGroups").doc(collectionId);
+        let allAnnotations = collectionDoc.collection("annotations");
+        let myUid = await AuthHelper.getUid();
+
+        let myAnnotations = allAnnotations.doc(myUid);
+        await myAnnotations.collection("annotations").doc(annotationId).delete();
     };
     MethodValueToMethodMap[Methods.DESTROY_ANNOTATION] = DataModel.deleteAnnotation;
 
     DataModel.deleteCollection = async (collectionId) =>
     {
-
+        // Danger! According to 
+        // https://firebase.google.com/docs/firestore/manage-data/delete-data?authuser=0#collections,
+        // we need to do a recursive delete.
     };
     MethodValueToMethodMap[Methods.DESTROY_COLLECTION] = DataModel.deleteCollection;
 
@@ -313,9 +396,20 @@
         {
             if (MethodValueToMethodMap[message.method])
             {
-                const result = await MethodValueToMethodMap[message.method].apply(DataModel, message.args);
+                try
+                {
+                    const result = await MethodValueToMethodMap[message.method].apply(DataModel, message.args);
                 
-                response(result);
+                    response(result);
+                }
+                catch(e)
+                {
+                    response({ error: e, inErrorState: true });
+                }
+            }
+            else
+            {
+                response({ error: message.method + " is unknown. Full message: " + message, inErrorState: true });
             }
         });
     };
@@ -328,6 +422,14 @@
                 { method: method, args: args }, 
             (response) =>
             {
+                console.log("RESPONSE!!!!!");
+                console.log(response);
+
+                if (response && response.inErrorState && response.error)
+                {
+                    reject(response.error);
+                }
+
                 resolve(response);
             });
         });
