@@ -271,27 +271,25 @@
 
         if (annotations.exists)
         {
-            
+            let data = annotations.data();
+
+            data.forEach((doc) =>
+            {
+                console.log(doc.id);
+
+                // Perhaps a check for whether doc.id and myUid match?
+                result.push
+                (
+                    doc // To-do: determine exactly what doc gives us.
+                );
+
+                console.log(doc);
+            });
         }
         else
         {
             console.log("Annotations doesn't exist yet!");
         }
-
-        let data = annotations.data();
-
-        data.forEach((doc) =>
-        {
-            console.log(doc.id);
-
-            // Perhaps a check for whether doc.id and myUid match?
-            result.push
-            (
-                doc // To-do: determine exactly what doc gives us.
-            );
-
-            console.log(doc);
-        });
 
         console.log("In data model: ")
         console.log(result);
