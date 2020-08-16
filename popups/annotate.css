@@ -1,5 +1,6 @@
 html, body {
     width: 100px;
+    overflow-y : auto; 
   }
   
   .hidden {
@@ -14,14 +15,6 @@ html, body {
     cursor: pointer;
   }
   
-  .beast:hover {
-    background-color: #CFF2F2;
-  }
-  
-  .beast {
-    background-color: #E5F2F2;
-  }
-  
   .reset {
     background-color: #FBFBC9;
   }
@@ -29,4 +22,7 @@ html, body {
   .reset:hover {
     background-color: #EAEA9D;
   }
-  
+
+
+
+ 
