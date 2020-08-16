@@ -3,7 +3,7 @@
     "version": "1.0",
     "description": "This extension allows you to annotate websites and start discussion threads",
     "icons": {
-      "48": "/icons/popup-action-48.png"
+      "48": "/icons/annote-48.png"
     },
     "permissions": ["storage", "activeTab"],
     "background": {
@@ -17,6 +17,6 @@
     },
     "content_security_policy": "script-src 'self' https://www.gstatic.com/ https://*.firebaseio.com https://www.googleapis.com; object-src 'self'",
     "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzvuRuP5V+z2ZvAONznk6+b5icB49lal0LRFYZngiYehtGz/ImrQU3LT5mc9eRlSHUmSEjVvlyNXjWg1MM5kJkEJymgGui6HYLhdMrDOLBcOzD1ywh+nXLS/WEcHs2MQyl01JpSAHhC2VjjfT1bkI5+ifbxxG1O4bqlljL/0aXtow/zO5Je5aGllEQqsftQnH6vaDelRKl7d1CM+uQAKJnA0R95mZWYAg0/+0yYTKNVnVZ4tnWO8k+xHj5ZTwW4EewHcsvKOFEbwOszUC8I4bXZ98O1b/+4e+oSxFxtvJrn7tPozAr9KG81Uil2USEN3MuOv0DKMCosB+C/wpElWF4wIDAQAB",
-    
+
     "manifest_version": 2
   }
