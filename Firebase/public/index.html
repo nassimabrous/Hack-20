@@ -1,65 +1,144 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Welcome to Firebase Hosting</title>
+<html lang="en">
 
-    <!-- update the version number as needed -->
-    <script defer src="/__/firebase/7.18.0/firebase-app.js"></script>
-    <!-- include only the Firebase features as you need -->
-    <script defer src="/__/firebase/7.18.0/firebase-auth.js"></script>
-    <script defer src="/__/firebase/7.18.0/firebase-database.js"></script>
-    <script defer src="/__/firebase/7.18.0/firebase-messaging.js"></script>
-    <script defer src="/__/firebase/7.18.0/firebase-storage.js"></script>
-    <!-- initialize the SDK after all desired features are loaded -->
-    <script defer src="/__/firebase/init.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
+    <title>CoAnnote</title>
+    <!--stylesheet-->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,900" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="styles/styles.css" rel="stylesheet" type="text/css">
+    <link href="styles/custom-responsive-styles.css" rel="stylesheet" type="text/css">
+    <!--scripts-->
+    <script type="text/javascript" src="scripts/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="scripts/all-plugins.js"></script>
+    <script type="text/javascript" src="scripts/plugins-activate.js"></script>
+</head>
 
-    <style media="screen">
-      body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
-      #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
-      #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
-      #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
-      #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
-      #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
-      #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
-      #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
-      @media (max-width: 600px) {
-        body, #message { margin-top: 0; background: white; box-shadow: none; }
-        body { border-top: 16px solid #ffa100; }
-      }
-    </style>
-  </head>
-  <body>
-    <div id="message">
-      <h2>Welcome</h2>
-      <h1>Firebase Hosting Setup Complete</h1>
-      <p>You're seeing this because you've successfully setup Firebase Hosting. Now it's time to go build something extraordinary!</p>
-      <a target="_blank" href="https://firebase.google.com/docs/hosting/">Open Hosting Documentation</a>
+<body id="page-top">
+<!-- Navigation -->
+<div class="logo">
+    <i aria-hidden="true"><span>CoAnnote</span></i>
+</div>
+<a class="menu-toggle rounded" href="#">
+    <i class="fa fa-bars"></i>
+</a>
+<nav id="sidebar-wrapper">
+    <ul class="sidebar-nav">
+        <li class="sidebar-brand">
+            <a class="smooth-scroll" href="#Header"></a>
+        </li>
+        <li class="sidebar-nav-item">
+            <a class="smooth-scroll" href="#page-top">Home</a>
+        </li>
+        <li class="sidebar-nav-item">
+            <a class="smooth-scroll" href="#About">About</a>
+        </li>
+        <li class="sidebar-nav-item">
+            <a class="smooth-scroll" href="#Services">Features</a>
+        </li>
+    </ul>
+</nav>
+<!-- Header Starts -->
+<section id="Banner" class="content-section">
+    <div class="container content-wrap text-center">
+        <h1>Welcome to CoAnnote</h1>
+        <h3>
+            <em>A Chrome Extension that makes Annotating Simple</em>
+        </h3>
+        <a class="btn btn-primary btn-xl smooth-scroll" href="#About">Learn More</a>
     </div>
-    <p id="load">Firebase SDK Loading&hellip;</p>
+    <div class="overlay"></div>
+</section>
+<!-- Header Ends -->
+<!-- About Us Starts -->
+<section id="About" class="content-section">
+    <div class="container text-center">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="block-heading">
+                    <h2>What is CoAnnote?</h2>
+                </div>
+                <p class="lead">A Google Chrome Extension allows you to annotate websites and start discussion threads</p>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- About Us Starts -->
+<section id="Services" class="content-section text-center">
+    <div class="container">
+        <div class="block-heading">
+            <h2>Features</h2>
+            <p>Here are a few things CoAnnote is capable of doing</p>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-sm-6">
+                <div class="service-box">
+                    <div class="service-icon yellow">
+                        <div class="front-content">
+                            <i class="fa fa-globe" aria-hidden="true"></i>
+                            <h3>Annotate</h3>
+                        </div>
+                    </div>
+                    <div class="service-content">
+                        <h3>Annotate</h3>
+                        <p>Visit a web page and Annotate!</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="service-box">
+                    <div class="service-icon orange">
+                        <div class="front-content">
+                            <i class="fa fa-suitcase"></i>
+                            <h3>Recent Annotations</h3>
+                        </div>
+                    </div>
+                    <div class="service-content">
+                        <h3>Recent Annotations</h3>
+                        <p>View your most recent annotations</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="service-box ">
+                    <div class="service-icon red">
+                        <div class="front-content">
+                            <i class="fa fa-male" aria-hidden="true"></i>
+                            <h3>Annotations for pages</h3>
+                        </div>
+                    </div>
+                    <div class="service-content">
+                        <h3>Annotations for pages</h3>
+                        <p>View your annotations for a selected page</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="service-box">
+                    <div class="service-icon grey">
+                        <div class="front-content">
+                            <i class="fa fa-users"></i>
+                            <h3>Simple UI</h3>
+                        </div>
+                    </div>
+                    <div class="service-content">
+                        <h3>Simple UI</h3>
+                        <p>User Interface is simple and easy to use </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-        // // The Firebase SDK is initialized and available here!
-        //
-        // firebase.auth().onAuthStateChanged(user => { });
-        // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
-        // firebase.messaging().requestPermission().then(() => { });
-        // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
-        //
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
 
-        try {
-          let app = firebase.app();
-          let features = ['auth', 'database', 'messaging', 'storage'].filter(feature => typeof app[feature] === 'function');
-          document.getElementById('load').innerHTML = `Firebase SDK loaded with ${features.join(', ')}`;
-        } catch (e) {
-          console.error(e);
-          document.getElementById('load').innerHTML = 'Error loading the Firebase SDK, check the console.';
-        }
-      });
-    </script>
-  </body>
+
+</body>
+
 </html>
