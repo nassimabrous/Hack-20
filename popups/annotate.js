@@ -23,7 +23,7 @@ function main()
         id("annotate-view").classlist.add("hidden");
     }
 
-    funciton annotate() {
+    function annotate() {
         id("annotate-view").classlist.remove("hidden");
         id("main-view").classlist.add("hidden");
         id("quote-view").classlist.add("hidden");

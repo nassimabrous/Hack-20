@@ -15,8 +15,8 @@
         </header>
 
         <div class="topnav">
-            <a class="active" href="#home">Home</a>
-            <a href="#annotate">Annotate</a>
+            <a class="active" id="home" >Home</a>
+            <a id="annotate">Annotate</a>
         </div> 
 
         <main> 
@@ -24,7 +24,7 @@
             <article id="main-view" class="hidden">
                 <p>
                     <div class="verticle-btn-group">
-                        <button id=''></button>
+                        <button></button>
                         <button></button>
                         <button></button>
                     </div>
@@ -50,12 +50,13 @@
             </article>
 
             <!-- Annotation View -->
-            <article id="annotating-view">
+            <article id="annotate-view">
                 <p>
                     <label>Your next annotation:</label>
                     <textarea id="annotation" name="annotation" rows="4" cols="20">
                         Enter your annotation here.
                     </textarea>
+                    <button class="button" id = "mainButton">Add Annotation</button>
                 </p>
             </article>
 
