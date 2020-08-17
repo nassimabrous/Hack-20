@@ -1,33 +1,31 @@
-(async function main() {
-    "use strict";
+"use strict";
+
+(async function() {
     const API_URL = ""; // provide the api URL
-    window.addEventListener("load", init);
 
     await JSHelper.Notifier.waitFor(JSHelper.GlobalEvents.PAGE_SETUP_COMPLETE);
+    console.log("!! SETUP COMPLETE !!");
+
     DataModel.setMode(true);
     DataModel.startServer();
-    let button = document.querySelector("#mainButton");
 
-    button.addEventListener("click", () => {
-        modifyTabContent();
-    });
+    init();
 
-    id("newCollection").addEventListener("click", async () => {
-        try {
-            let title = await SubWindowHelper.prompt
-            (
-                "Title",
-                "You're making a new collection! Give it a title!",
-                {
-                    "Title": "text"
-                }
-            );
+    let button = document.querySelector("#newCollection");
 
-            let tab = await getCurrentTab();
-            await DataModel.createCollection(tab.url, title.Title);
-        } catch (e) {
-            SubWindowHelper.alert("Error!", e);
-        }
+    button.addEventListener("click", async () => {
+        let title = await SubWindowHelper.prompt
+        (
+            "Title",
+            "You're making a new collection! Give it a title!",
+            {
+                "Title": "text"
+            }
+        );
+
+        let tab = await getCurrentTab();
+        console.log(tab.url + ": " + title.Title);
+        await DataModel.createCollection(tab.url, title.Title);
 
         home();
     });
@@ -133,8 +131,6 @@
             });
         });
     }
-
-    button.focus();
 
     /* ------------------------------ Helper Functions  ------------------------------ */
 

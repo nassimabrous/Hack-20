@@ -44,7 +44,11 @@ async function main()
     {
         var currentCollectionId = await DataModel.getCurrentCollection();
         var annotations = await DataModel.getCollectionAnnotations(currentCollectionId);
-        console.log(currentCollectionId);
+        
+        if (!annotations)
+        {
+            return;
+        }
 
         for (const annotation of annotations)
         {

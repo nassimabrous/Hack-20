@@ -5,7 +5,7 @@
     "icons": {
       "48": "/icons/annote-48.png"
     },
-    "permissions": ["storage", "activeTab"],
+    "permissions": ["storage", "activeTab", "tabs"],
     "background": {
         "page": "/content_scripts/backgroundPage.html",
         "persistent": true

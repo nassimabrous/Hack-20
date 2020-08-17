@@ -33,8 +33,8 @@ function initializeRemoteAccess()
             });
         }
     
-        JSHelper.Notifier.notify(JSHelper.GlobalEvents.PAGE_SETUP_COMPLETE);
         AuthHelper.insertAuthCommands(document.querySelector("#authRegion"));
+        JSHelper.Notifier.notify(JSHelper.GlobalEvents.PAGE_SETUP_COMPLETE);
     });
 }
 
